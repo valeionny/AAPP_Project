@@ -17,16 +17,15 @@ int main()
 	
 	for(int i=0; i<LENGTH; i++)
 	{
-		random=rand();
-		//cout<< std::to_string(random)<< "\n";
 		
-		if(random<0.7*RAND_MAX)
+		
+		if(rand()<0.7*RAND_MAX)
 			addends.push_back(0);
 		else
-			addends.push_back((max_value/RAND_MAX)*random);	
+			addends.push_back((max_value/RAND_MAX)*rand());	
 	}
 	for(unsigned long long int addend: addends){
-		cout<< std::to_string(addend)<<"  ";
+		cout<< std::to_string(addend)<<" \n ";
 		
 	}
 	
