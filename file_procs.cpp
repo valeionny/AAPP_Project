@@ -1,6 +1,6 @@
+#include "file_procs.hpp"
 #include <fstream>
 #include <iostream>
-#include "file_procs.hpp"
 
 int saveToFile(std::vector<unsigned long long int> vec, std::string filename) {
 	std::ofstream target_file (filename);

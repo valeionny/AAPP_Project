@@ -1,0 +1,9 @@
+* file che definisce la creazione di un dataset con N numeri di cui una percentuale non-zero con un nome specificato
+* file che definisce l'algoritmo seriale
+* file che definisce l'algoritmo parallelo (openmp!)
+* file che definisce l'algoritmo randomizzato (openmp!)
+* file che esegue la creazione di dataset e salva in un file
+* file che esegue l'algoritmo seriale preso un file dataset
+* file che esegue l'algoritmo parallelo preso un file dataset
+* file che esegue l'algoritmo randomizzato preso un file dataset
+* applicare la licenza a tutti i file
