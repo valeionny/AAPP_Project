@@ -2,8 +2,8 @@
 * (OK) file che definisce l'algoritmo seriale
 * file che definisce l'algoritmo parallelo (openmp!)
 * file che definisce l'algoritmo randomizzato (openmp!)
-* file che esegue la creazione di dataset e salva in un file con un nome specificato
-* file che esegue l'algoritmo seriale preso un file dataset
+* (OK) file che esegue la creazione di dataset e salva in un file con un nome specificato
+* (OK) file che esegue l'algoritmo seriale preso un file dataset
 * file che esegue l'algoritmo parallelo preso un file dataset
 * file che esegue l'algoritmo randomizzato preso un file dataset
 * aggiungere benchmark in qualche modo

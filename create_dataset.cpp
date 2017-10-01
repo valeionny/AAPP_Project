@@ -2,9 +2,11 @@
 #include "file_procs.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <vector>
+#include <string>
 
 int main(int argc, char * argv[]) {
-	if (argc < 3) {
+	if (argc < 4) {
 		std::cout << "Usage:" << std::endl
 				  << "  create_dataset <dataset_size> <nonzero_percentage> <filename>" << std::endl;
 		return 1;
@@ -18,12 +20,12 @@ int main(int argc, char * argv[]) {
 
 	if (dataset.empty()) {
 		std::cout << "Dataset creation failed!" << std::endl;
-		return 1;
+		return 2;
 	}
 
 	if (saveToFile(dataset, filename) != 0) {
 		std::cout << "Write to file failed!" << std::endl;
-		return 2;
+		return 3;
 	}
 
 	std::cout << "Dataset successfully saved to " << filename << std::endl;
