@@ -16,7 +16,7 @@ int saveToFile(std::vector<unsigned long long int> vec, std::string filename) {
 		target_file.close();
 
 	} else {
-		std::cout << "Unable to open file \"" << filename << "\"";
+		std::cout << "Unable to open file \"" << filename << "\"\n";
 		return 1;
 	}
 
@@ -42,7 +42,7 @@ std::vector<unsigned long long int> loadFromFile(std::string filename) {
 		source_file.close();
 
 	} else {
-		std::cout << "Unable to open file \"" << filename << "\"";
+		std::cout << "Unable to open file \"" << filename << "\"\n";
 	}
 
 	return vec;
