@@ -36,8 +36,7 @@ std::vector<unsigned long long int> loadFromFile(std::string filename) {
 
 		// read numbers one by one
 		for (unsigned int i=0; i < vec_size; i++) {
-			source_file >> curr_num;
-			vec.push_back(curr_num);
+			source_file >> vec[i];
 		}
 		source_file.close();
 
