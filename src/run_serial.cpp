@@ -1,5 +1,7 @@
 #include "file_procs.hpp"
+#include "file_procs.cpp"
 #include "serial.hpp"
+#include "serial.cpp"
 #include <iostream>
 #include <vector>
 #include <string>
