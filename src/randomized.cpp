@@ -9,29 +9,48 @@
  */
 unsigned long int flipCoinsUntilHeads() {
 	unsigned long int tails = 0;
-	// use the highest bits for better randomness
 	while (rand() / (RAND_MAX / 2 + 1) == 0) {
 		tails++;
 	}
 	return tails;
 }
 
-//TODO: e' giusto passare un vettore come parametro? (performance?)
-unsigned long int produceAnEstimate(std::vector<unsigned long long int> addends) {
-	//TODO: parallelizzare
-	// dividi vettore per x processori
-	// ogni processore
-	//    per ogni numero non-zero esegui flipCoinsUntilHeads
-	// max_tails shared tra thread
-	//TODO: compare_and_swap
+unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &addends) {
+
 	unsigned long int max_tails = 0;
-	for (unsigned long long int addend : addends) {
-		if (addend != 0){
-			unsigned long int new_tails = flipCoinsUntilHeads();
-			if (new_tails > max_tails) {
-				max_tails = new_tails;
+	unsigned int n = addends.size();
+	#pragma omp parallel
+	{
+		#pragma omp for
+		for (unsigned int i=0; i < n; i++) {
+			if (addends[i] != 0){
+				unsigned long int new_tails = flipCoinsUntilHeads();
+
+				//FIXME: replace con compare_and_swap
+				#pragma omp critical (max_tails)
+				{
+					if (new_tails > max_tails) {
+						max_tails = new_tails;
+					}
+				}
 			}
 		}
+
+		/*
+		for (unsigned long long int addend : addends) {
+			if (addend != 0){
+				unsigned long int new_tails = flipCoinsUntilHeads();
+
+				//TODO: replace con compare_and_swap
+				#pragma omp critical (max_tails)
+				{
+					if (new_tails > max_tails) {
+						max_tails = new_tails;
+					}
+				}
+			}
+		}
+		*/
 	}
 	return max_tails;
 }
@@ -41,6 +60,7 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> addends
 	// Estimation
 	srand((unsigned int) time(NULL));
 
+	// run produce-an-estimate k times
 	std::vector<unsigned long int> estimates;
 	estimates.resize(k);
 	for (unsigned int i=0; i < k; i++) {
@@ -55,17 +75,20 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> addends
 	double E = log(2) * ((double) sum_of_estimates / k);
 	unsigned long int m = exp(2) * exp(E) + d;
 
-	// ifdef DEBUG
-	unsigned long int actual = 0;
-	for (unsigned long long int addend: addends) {
-		if (addend != 0) {
-			actual++;
+	/* Alternative (using approximate fit)
+	m = pow(2.0, (double) sum_of_estimates / k -1 + 0.6667) + d;
+	*/
+
+	#ifdef DEBUG 
+		unsigned long int actual = 0;
+		for (unsigned long long int addend: addends) {
+			if (addend != 0) {
+				actual++;
+			}
 		}
-	}
-	std::cout << "size " << addends.size() << std::endl;
-	std::cout << "Estimate: " << m << std::endl;
-	std::cout << "Actual: " << actual << std::endl;
-	// endif
+		std::cout << "Estimate: " << m << std::endl;
+		std::cout << "Actual: " << actual << std::endl;
+	#endif
 
 	// Addition
 	unsigned long long int sum = 0;
