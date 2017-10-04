@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
+#include <atomic>
 
 /**
  * Flip a coin until a head is found, then return the number of tails
@@ -26,13 +27,35 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 			if (addends[i] != 0){
 				unsigned long int new_tails = flipCoinsUntilHeads();
 
-				//FIXME: replace con compare_and_swap
-				#pragma omp critical (max_tails)
+
+				// gcc version
+				#ifdef __GNUC__
 				{
-					if (new_tails > max_tails) {
-						max_tails = new_tails;
+					// keep trying to write on max_tails if the new result is higher
+					while (1) {
+						unsigned long int curr_tails = max_tails;
+						if (new_tails > curr_tails) {
+							if (__sync_bool_compare_and_swap(&max_tails, curr_tails, new_tails)) {
+								break;    // swap successful
+							};
+						} else {
+							break;
+						}
 					}
 				}
+				// not gcc/windows version -> "http://en.cppreference.com/w/cpp/atomic/atomic_compare_exchange"
+				#else
+				{
+					//FIXME: replace con compare_and_swap
+					// (actually it seems like the performance is comparable)
+					#pragma omp critical (max_tails)
+					{
+						if (new_tails > max_tails) {
+							max_tails = new_tails;
+						}
+					}
+				}
+				#endif
 			}
 		}
 
