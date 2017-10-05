@@ -10,9 +10,9 @@ unsigned long long int parallelSum(std::vector<unsigned long long int> addends) 
 	
 	for(int h=1; h< (int)log2(n); h++){
 		//numero di elementi del sottoarray dispari
-		if((n%((int)pow(2,h))!=0))
+		if((n/((1<<h)-1))%2!=0)
 		{
-			for(int i=1; i<=(int)(n/((int)pow(2,h))); i++){
+			for(int i=1; i<=(int)(n/(1<<h)); i++){
 				
 				unsigned long long int x=addends[2*i-2];
 				unsigned long long int y=addends[2*i-1];
@@ -20,12 +20,12 @@ unsigned long long int parallelSum(std::vector<unsigned long long int> addends) 
 				addends[i-1]=z;	
 					std::cout << "dispari\n";
 			}
-			addends[n/(pow(2,h))+n%((int)pow(2,h))]= addends[n/(pow(2,h-1)) + n%((int)pow(2,h-1))];
+			addends[n/(1<<h)+n%(1<<h)]= addends[n/((1<<h)-1) + n%((1<<h)-1)];
 		}
 		//numero di elementi del sottoarray pari
 		else
 		{	
-			for(int i=1; i<=n/(pow(2,h)) + n%((int)pow(2,h)); i++){
+			for(int i=1; i<=n/(1<<h) + n%(1<<h); i++){
 				
 				unsigned long long int x=addends[2*i-2];
 				unsigned long long int y=addends[2*i-1];
