@@ -37,8 +37,8 @@ int main(int argc, char * argv[]) {
 	std::cout << "Loaded dataset " << filename << std::endl;
 
 	unsigned long long int sum = randomizedSum(addends, k);
-	/*std::cout << "Sum: " << sum << std::endl;
+	std::cout << "Sum: " << sum << std::endl;
 
-	std::cout << "Done!" << std::endl;*/
+	std::cout << "Done!" << std::endl;
 	return 0;
 }

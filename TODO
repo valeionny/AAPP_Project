@@ -9,4 +9,5 @@
 * aggiungere benchmark in qualche modo
 * applicare la licenza a tutti i file
 
+(* replace rand() with boost::random http://www.boost.org/doc/libs/1_55_0/doc/html/boost_random.html)
 (* aggiungere exceptions in caso di errore nelle funzioni?)

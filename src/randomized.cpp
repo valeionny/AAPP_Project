@@ -5,12 +5,16 @@
 #include <iostream>
 #include <atomic>
 
+#include "serial.hpp"
+
+//TODO! usa una libreria migliore per random
+
 /**
  * Flip a coin until a head is found, then return the number of tails
  */
 unsigned long int flipCoinsUntilHeads() {
 	unsigned long int tails = 0;
-	while (rand() / (RAND_MAX / 2 + 1) == 0) {
+	while (rand() % 2 == 0) {
 		tails++;
 	}
 	return tails;
@@ -26,7 +30,6 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 		for (unsigned int i=0; i < n; i++) {
 			if (addends[i] != 0){
 				unsigned long int new_tails = flipCoinsUntilHeads();
-
 
 				// gcc version
 				#ifdef __GNUC__
@@ -58,22 +61,6 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 				#endif
 			}
 		}
-
-		/*
-		for (unsigned long long int addend : addends) {
-			if (addend != 0){
-				unsigned long int new_tails = flipCoinsUntilHeads();
-
-				//TODO: replace con compare_and_swap
-				#pragma omp critical (max_tails)
-				{
-					if (new_tails > max_tails) {
-						max_tails = new_tails;
-					}
-				}
-			}
-		}
-		*/
 	}
 	return max_tails;
 }
@@ -84,8 +71,7 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> addends
 	srand((unsigned int) time(NULL));
 
 	// run produce-an-estimate k times
-	std::vector<unsigned long int> estimates;
-	estimates.resize(k);
+	std::vector<unsigned long int> estimates (k);
 	for (unsigned int i=0; i < k; i++) {
 		estimates[i] = produceAnEstimate(addends);
 	}
@@ -114,6 +100,38 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> addends
 	#endif
 
 	// Addition
-	unsigned long long int sum = 0;
+
+	// initialize space
+	unsigned long int red_size = m * a;
+	std::vector<unsigned long long int> reduced_vector (red_size, 0);
+
+	// memory marking
+	unsigned int n = addends.size();
+	#pragma omp parallel
+	{
+		#pragma omp for
+		for (unsigned int i=0; i < n; i++) {
+			if (addends[i] != 0) {
+				// keep trying to write on new vector
+				bool done = false;
+				while (!done) {
+					unsigned int index = rand() % red_size;
+					//TODO compare and swap?
+					#pragma omp critical(reduced_vector)
+					{
+						if (reduced_vector[index] == 0) {
+							reduced_vector[index] = addends[i];
+							done = true;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// parallel sum
+	//FIXME: replace with parallel sum
+	unsigned long long int sum = serialSum(reduced_vector);
+
 	return sum;
 }
