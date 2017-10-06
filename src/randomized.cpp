@@ -5,7 +5,8 @@
 #include <iostream>
 #include <atomic>
 
-#include "serial.hpp"
+// temporaneo mentre scriviamo la somma parallela
+#include "serial.cpp"
 
 //TODO! usa una libreria migliore per random
 
