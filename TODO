@@ -1,12 +1,21 @@
+Datasets:
 * (OK) file che definisce la creazione di un dataset con N numeri di cui una percentuale non-zero
+Algoritmi:
 * (OK) file che definisce l'algoritmo seriale
-* file che definisce l'algoritmo parallelo (openmp!)
-* file che definisce l'algoritmo randomizzato (openmp!)
+* (OK) file che definisce l'algoritmo parallelo (openmp!)
+* (OK) file che definisce l'algoritmo randomizzato (openmp!)
 * (OK) file che esegue la creazione di dataset e salva in un file con un nome specificato
 * (OK) file che esegue l'algoritmo seriale preso un file dataset
-* file che esegue l'algoritmo parallelo preso un file dataset
-* file che esegue l'algoritmo randomizzato preso un file dataset
-* aggiungere benchmark in qualche modo
+* (OK) file che esegue l'algoritmo parallelo preso un file dataset
+* (OK) file che esegue l'algoritmo randomizzato preso un file dataset
+Test:
+* eseguibili che eseguono gli algoritmi e misurano il tempo impiegato
+  -> input: dataset, parametri algoritmo, filename output, numero di ripetizioni da fare
+  -> output: file csv con risultati?
+
+Altro:
+* aggiungere più output di debug! -> stima, spazio allocato, ecc.
+* aggiungere commenti
 * applicare la licenza a tutti i file
 
 (* replace rand() with boost::random http://www.boost.org/doc/libs/1_55_0/doc/html/boost_random.html)

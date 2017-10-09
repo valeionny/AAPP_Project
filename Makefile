@@ -11,10 +11,10 @@ serial: bindir
 	g++ -o bin/run_serial src/run_serial.cpp #src/serial.cpp src/file_procs.cpp
 
 parallel: bindir
-	g++ -o bin/run_parallel src/run_parallel.cpp #src/parallel.cpp src/file.procs.cpp
+	g++ -fopenmp -o bin/run_parallel src/run_parallel.cpp #src/parallel.cpp src/file.procs.cpp
 
 randomized: bindir
-	g++ -o bin/run_randomized src/run_randomized.cpp src/randomized.cpp src/file_procs.cpp
+	g++ -fopenmp -o bin/run_randomized src/run_randomized.cpp src/randomized.cpp src/parallel.cpp src/file_procs.cpp
 	
 clean:
 	rm -rf bin

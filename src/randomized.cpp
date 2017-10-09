@@ -1,4 +1,5 @@
 #include "randomized.hpp"
+#include "parallel.hpp"
 #include <vector>
 #include <cstdlib>
 #include <cmath>

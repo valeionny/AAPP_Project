@@ -5,15 +5,27 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <omp.h>
 
 int main(int argc, char * argv[]) {
 	if (argc < 2) {
 		std::cout << "Usage:" << std::endl
-				  << "  run_serial <path_to_dataset>" << std::endl;
+				  << "  " << argv[0] << " <path_to_dataset> [<num_threads>]" << std::endl;
 		return 1;
 	}
 
 	std::string filename (argv[1]);
+
+	if (argc >= 3) {
+		unsigned int num_threads = strtoul(argv[2], 0, 0);
+		#ifdef _OPENMP
+			omp_set_num_threads(num_threads);
+			std::cout << "Running with " << num_threads << " threads" << std::endl;
+		#else
+			std::cout << "OpenMP not found. Remember to compile with the -fopenmp flag!" << std::endl;
+			std::cout << "Running with 1 thread." << std::endl;
+		#endif
+	}
 
 	std::vector<unsigned long long int> addends = loadFromFile(filename);
 	if (addends.empty()) {
