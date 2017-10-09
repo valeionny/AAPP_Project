@@ -131,8 +131,7 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> addends
 	}
 
 	// parallel sum
-	//FIXME: replace with parallel sum
-	unsigned long long int sum = serialSum(reduced_vector);
+	unsigned long long int sum = parallelSum(reduced_vector);
 
 	return sum;
 }
