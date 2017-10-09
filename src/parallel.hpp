@@ -2,6 +2,6 @@
 #define parallel_h
 #include <vector>
 
-unsigned long long int parallelSum(std::vector<unsigned long long int> addends);
+unsigned long long int parallelSum(std::vector<unsigned long long int> &addends);
 
 #endif

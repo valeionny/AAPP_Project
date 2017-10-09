@@ -66,7 +66,7 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 	return max_tails;
 }
 
-unsigned long long int randomizedSum(std::vector<unsigned long long int> addends, unsigned int k, unsigned int a, unsigned int d) {
+unsigned long long int randomizedSum(std::vector<unsigned long long int> &addends, unsigned int k, unsigned int a, unsigned int d) {
 
 	// Estimation
 	srand((unsigned int) time(NULL));

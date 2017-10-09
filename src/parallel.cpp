@@ -4,7 +4,7 @@
 #include <iostream>
 #include <omp.h>
 
-unsigned long long int parallelSum(std::vector<unsigned long long int> addends) {
+unsigned long long int parallelSum(std::vector<unsigned long long int> &addends) {
 	
 	unsigned long long int sum = 0;
 	int n= addends.size();
