@@ -10,7 +10,7 @@ Algoritmi:
 * (OK) file che esegue l'algoritmo randomizzato preso un file dataset
 Test:
 * eseguibili che eseguono gli algoritmi e misurano il tempo impiegato
-  -> input: dataset, parametri algoritmo, filename output, numero di ripetizioni da fare
+  -> input: dataset, parametri algoritmo (e num threads), filename output, numero di ripetizioni da fare
   -> output: file csv con risultati?
 
 Altro:

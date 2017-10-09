@@ -1,5 +1,5 @@
 
-all: dataset serial parallel randomized
+all: dataset serial parallel randomized testserial
 
 bindir:
 	mkdir -p bin
@@ -15,6 +15,9 @@ parallel: bindir
 
 randomized: bindir
 	g++ -fopenmp -o bin/run_randomized src/run_randomized.cpp src/randomized.cpp src/parallel.cpp src/file_procs.cpp
+
+testserial: bindir
+	g++ -o bin/test_serial src/test_serial.cpp
 	
 clean:
 	rm -rf bin
