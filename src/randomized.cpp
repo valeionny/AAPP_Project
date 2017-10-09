@@ -6,9 +6,6 @@
 #include <iostream>
 #include <atomic>
 
-// temporaneo mentre scriviamo la somma parallela
-#include "serial.cpp"
-
 //TODO! usa una libreria migliore per random
 
 /**
@@ -51,8 +48,7 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 				// not gcc/windows version -> "http://en.cppreference.com/w/cpp/atomic/atomic_compare_exchange"
 				#else
 				{
-					//FIXME: replace con compare_and_swap
-					// (actually it seems like the performance is comparable)
+					// TODO: compare_and_swap su windows?
 					#pragma omp critical (max_tails)
 					{
 						if (new_tails > max_tails) {
@@ -118,14 +114,22 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 				bool done = false;
 				while (!done) {
 					unsigned int index = rand() % red_size;
-					//TODO compare and swap?
-					#pragma omp critical(reduced_vector)
-					{
+					#ifdef __GNUC__
 						if (reduced_vector[index] == 0) {
-							reduced_vector[index] = addends[i];
-							done = true;
+							if (__sync_bool_compare_and_swap(&reduced_vector[index], 0, addends[i])) {
+								done = true;
+							}
 						}
-					}
+					#else
+						// TODO: compare_and_swap su windows?
+						#pragma omp critical(reduced_vector)
+						{
+							if (reduced_vector[index] == 0) {
+								reduced_vector[index] = addends[i];
+								done = true;
+							}
+						}
+					#endif
 				}
 			}
 		}

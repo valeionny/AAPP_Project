@@ -32,8 +32,6 @@ int main(int argc, char * argv[]) {
 		k = 0;
 	}
 
-
-
 	std::vector<unsigned long long int> addends = loadFromFile(filename);
 	if (addends.empty()) {
 		std::cout << "Dataset loading failed!" << std::endl;

@@ -16,6 +16,7 @@ Test:
 Altro:
 * aggiungere più output di debug! -> stima, spazio allocato, ecc.
 * aggiungere commenti
+* compare_and_swap per windows?
 * applicare la licenza a tutti i file
 
 (* replace rand() with boost::random http://www.boost.org/doc/libs/1_55_0/doc/html/boost_random.html)
