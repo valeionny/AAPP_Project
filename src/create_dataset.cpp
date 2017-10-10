@@ -15,7 +15,7 @@ int main(int argc, char * argv[]) {
 	}
 
 	unsigned long int dataset_size = strtoul(argv[1], NULL, 0);
-	unsigned int non_zero_percentage = strtoul(argv[2], NULL, 0);
+	double non_zero_percentage = strtod(argv[2], NULL);
 	std::string filename (argv[3]);
 
 	std::vector<unsigned long long int> dataset = createDataset(dataset_size, non_zero_percentage);

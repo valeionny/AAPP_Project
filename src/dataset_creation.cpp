@@ -18,7 +18,7 @@ unsigned long long int generateNumber(unsigned long long int max_value) {
 	return sum;
 }
 
-std::vector<unsigned long long int> createDataset(unsigned long int tot_num, unsigned int non_zero_percentage) {
+std::vector<unsigned long long int> createDataset(unsigned long int tot_num, double non_zero_percentage) {
 
 	std::vector<unsigned long long int> vec;
 
@@ -28,7 +28,7 @@ std::vector<unsigned long long int> createDataset(unsigned long int tot_num, uns
 	}
 
 	vec.resize(tot_num);
-	unsigned long int non_zero = ((double) non_zero_percentage / 100) * tot_num;
+	unsigned long int non_zero = ( non_zero_percentage / 100) * tot_num;
 	// we want to make sure that the sum doesn't overflow
 	unsigned long long int max_value = ULONG / non_zero;
 	
@@ -50,7 +50,7 @@ std::vector<unsigned long long int> createDataset(unsigned long int tot_num, uns
 	else
 	{
 		// probabilistic choice between zero and non-zero
-		int rand_threshold = RAND_MAX * ((double) non_zero_percentage / 100);
+		int rand_threshold = RAND_MAX * (non_zero_percentage / 100);
 		for(unsigned long int i=0; i < tot_num; i++)
 		{	
 			if(rand() < rand_threshold)
