@@ -25,7 +25,7 @@ int main(int argc, char * argv[]) {
 		return 2;
 	}
 
-	if (saveToFile(dataset, filename) != 0) {
+	if (saveToFile(dataset, non_zero_percentage, filename) != 0) {
 		std::cout << "Write to file failed!" << std::endl;
 		return 3;
 	}
