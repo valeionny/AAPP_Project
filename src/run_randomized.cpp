@@ -6,14 +6,18 @@
 #include <omp.h>
 
 int main(int argc, char * argv[]) {
+
 	if (argc < 2) {
+		// print usage and exit
 		std::cout << "Usage:" << std::endl
-				  << "  " << argv[0] << " <path_to_dataset> [[<num_threads>] <k>]" << std::endl;
+				  << "  " << argv[0] << " <path_to_dataset> [<num_threads=1> [<k=10>]]" << std::endl;
 		return 1;
 	}
 
+	// get dataset path
 	std::string filename (argv[1]);
 
+	// set num threads
 	if (argc >= 3) {
 		unsigned int num_threads = strtoul(argv[2], 0, 0);
 		#ifdef _OPENMP
@@ -25,6 +29,7 @@ int main(int argc, char * argv[]) {
 		#endif
 	}
 
+	// set parameter k for the estimation step
 	unsigned int k;
 	if (argc >= 4) {
 		k = strtoul(argv[2], 0, 0);
@@ -32,6 +37,7 @@ int main(int argc, char * argv[]) {
 		k = 0;
 	}
 
+	// load dataset into a vector
 	std::vector<unsigned long long int> addends = loadFromFile(filename);
 	if (addends.empty()) {
 		std::cout << "Dataset loading failed!" << std::endl;
@@ -39,6 +45,10 @@ int main(int argc, char * argv[]) {
 	}
 	std::cout << "Loaded dataset " << filename << std::endl;
 
+	// initialize srand()
+	srand((unsigned int) time(NULL));
+
+	// do the sum
 	unsigned long long int sum;
 	if (k != 0) {
 		sum = randomizedSum(addends, k);

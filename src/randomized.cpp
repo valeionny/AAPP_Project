@@ -66,7 +66,6 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 unsigned long long int randomizedSum(std::vector<unsigned long long int> &addends, unsigned int k, unsigned int a, unsigned int d) {
 
 	// Estimation
-	srand((unsigned int) time(NULL));
 
 	// run produce-an-estimate k times
 	std::vector<unsigned long int> estimates (k);
