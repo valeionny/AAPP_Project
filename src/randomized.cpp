@@ -82,11 +82,11 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 	double E = log(2) * ((double) sum_of_estimates / k);
 	unsigned long int m = exp(2) * exp(E) + d;
 
-	/* Alternative (using approximate fit)
-	m = pow(2.0, (double) sum_of_estimates / k -1 + 0.6667) + d;
-	*/
 
 	#ifdef DEBUG 
+		// Alternative estimate (using approximate fit) 
+		unsigned long int mm = pow(2.0, (double) sum_of_estimates / k -1 + 0.6667) + d;
+
 		unsigned long int actual = 0;
 		for (unsigned long long int addend: addends) {
 			if (addend != 0) {
@@ -94,6 +94,7 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 			}
 		}
 		std::cout << "Estimate: " << m << std::endl;
+		std::cout << "Alternative: " << mm << std::endl;
 		std::cout << "Actual: " << actual << std::endl;
 	#endif
 
