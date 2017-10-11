@@ -49,12 +49,12 @@ int main(int argc, char * argv[]) {
 	if (text_file.is_open()) {
 		
 		// write all the parameters we want to display in first line
-		text_file << "Algorithm" << "," <<"NzPercentage"<< "," << "K" << ","<< "Threads" << ","<< "Time" <<"\n";
+		text_file << "Algorithm" << ";" <<"NzPercentage"<< ";" << "K" << ";"<< "Threads" << ";"<< "Time[ms]" <<"\n";
 		double percentage = getPercentageFromFile(dataset_filename);
-	    text_file << "Serial"<<",";
-	    text_file << percentage <<",";
-	    text_file << "NO" <<",";
-	    text_file << "1" <<",";
+	    text_file << "Serial"<<";";
+	    text_file << percentage <<";";
+	    text_file << "NO" <<";";
+	    text_file << "1" <<";";
 	    text_file << elapsed_time <<"\n";
 		text_file.close();
 
