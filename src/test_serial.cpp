@@ -43,7 +43,25 @@ int main(int argc, char * argv[]) {
 	std::cout << "Total elapsed time: " << elapsed_time << " ms" << std::endl;
 	std::cout << "Time for a single execution: " << ((float) elapsed_time / repetitions) << " ms" << std::endl;
 
-	// TODO output in file
+
+	std::ofstream text_file (output_filename);
+
+	if (text_file.is_open()) {
+		
+		// write all the parameters we want to display in first line
+		text_file << "Algorithm" << "," <<"NzPercentage"<< "," << "K" << ","<< "Threads" << ","<< "Time" <<"\n";
+		double percentage = getPercentageFromFile(dataset_filename);
+	    text_file << "Serial"<<",";
+	    text_file << percentage <<",";
+	    text_file << "NO" <<",";
+	    text_file << "1" <<",";
+	    text_file << elapsed_time <<"\n";
+		text_file.close();
+
+	} else {
+		std::cout << "Unable to open file \"" << output_filename  << "\"\n";
+		return 1;
+	}
 
 	std::cout << "Done!" << std::endl;
 	return 0;
