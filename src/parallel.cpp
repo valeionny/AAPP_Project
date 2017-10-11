@@ -8,7 +8,7 @@ unsigned long long int parallelSum(std::vector<unsigned long long int> &addends)
 	
 	unsigned long long int sum = 0;
 	unsigned long int n= addends.size();
-	std::cout << n << "\n";
+	
 	int j=0;
 	//all the logarithmic sum
 	while(n!=1){
