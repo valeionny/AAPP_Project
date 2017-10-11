@@ -20,7 +20,7 @@ testserial: bindir
 	g++ -o bin/test_serial src/test_serial.cpp
 
 testparallel: bindir
-	g++ -o bin/test_parallel src/test_parallel.cpp
+	g++ -fopenmp -o bin/test_parallel src/test_parallel.cpp
 
 clean:
 	rm -rf bin

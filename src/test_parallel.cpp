@@ -20,7 +20,19 @@ int main(int argc, char * argv[]) {
 
 	std::string output_filename (argv[2]);
 	
-	int threads = std::stoi(argv[3],nullptr,10);
+	unsigned int threads;
+	if (argc >= 4) {
+		threads = strtoul(argv[3], 0, 0);
+		#ifdef _OPENMP
+			omp_set_num_threads(threads);
+			std::cout << "Running with " << threads << " threads" << std::endl;
+		#else
+			std::cout << "OpenMP not found. Remember to compile with the -fopenmp flag!" << std::endl;
+			std::cout << "Running with 1 thread." << std::endl;
+		#endif
+	} else {
+		threads = 1;
+	}
 
 	unsigned long int repetitions;
 	if (argc >= 5) {
