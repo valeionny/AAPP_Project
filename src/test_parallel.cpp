@@ -23,7 +23,7 @@ int main(int argc, char * argv[]) {
 	int threads = std::stoi(argv[3],nullptr,10);
 
 	unsigned long int repetitions;
-	if (argc >= 4) {
+	if (argc >= 5) {
 		repetitions = strtoul(argv[4], 0, 0);
 	} else {
 		repetitions = 100;
@@ -37,7 +37,7 @@ int main(int argc, char * argv[]) {
 	}
 	std::cout << "Loaded dataset " << dataset_filename << std::endl;
 
-	std::cout << "Starting serial sum with " << repetitions << " repetitions" << std::endl;
+	std::cout << "Starting parallel sum with " << repetitions << " repetitions" << std::endl;
 	
 	unsigned long long int start_time = GetTimeMs64();
 	
@@ -52,7 +52,6 @@ int main(int argc, char * argv[]) {
 
 
 	std::ofstream text_file (output_filename);
-
 	
 	if (text_file.is_open()) {
 		
