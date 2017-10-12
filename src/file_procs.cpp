@@ -28,11 +28,11 @@ int saveToFile(std::vector<unsigned long long int> vec, double nonzeropercentage
 
 std::vector<unsigned long long int> loadFromFile(std::string filename) {
 	std::ifstream source_file (filename);
-	unsigned int vec_size;
 	std::vector<unsigned long long int> vec;
 
 	if (source_file.is_open()) {
 		// read vector size from first line
+		unsigned int vec_size;
 		source_file >> vec_size;
 		vec.resize(vec_size);
 
@@ -56,7 +56,7 @@ double getPercentageFromFile(std::string filename) {
 	std::ifstream source_file (filename);
 	double nonzeropercentage;
 
-	if (source_file.is_open()) {
+	if (source_file.is_open()) {		
 		// discard vector size from first line
 		source_file.ignore(1000, ' ');
 
@@ -67,6 +67,7 @@ double getPercentageFromFile(std::string filename) {
 
 	} else {
 		std::cout << "Unable to open file \"" << filename << "\"\n";
+		nonzeropercentage = -1;
 	}
 
 	return nonzeropercentage;

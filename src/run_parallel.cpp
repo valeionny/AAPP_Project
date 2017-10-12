@@ -17,8 +17,8 @@ int main(int argc, char * argv[]) {
 	std::string filename (argv[1]);
 
 	if (argc >= 3) {
-		unsigned int num_threads = strtoul(argv[2], 0, 0);
 		#ifdef _OPENMP
+			unsigned int num_threads = strtoul(argv[2], 0, 0);
 			omp_set_num_threads(num_threads);
 			std::cout << "Running with " << num_threads << " threads" << std::endl;
 		#else
