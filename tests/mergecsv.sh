@@ -2,9 +2,10 @@
 if [ -z "$1" ]
 then
 	echo "No filename provided for output"
+	exit 1
 fi
 
-touch $1
+echo "Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]" > $1
 for file in $( ls );
 do
 	if [[ $file == *".csv" ]]

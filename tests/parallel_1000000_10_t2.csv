@@ -1,0 +1,2 @@
+Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]
+Parallel;1000000;10;NO;2;11.35
