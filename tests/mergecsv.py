@@ -1,11 +1,7 @@
 #!/bin/env python3
-import sys, os
+import os
 
-if len(sys.argv) < 2:
-    print("No filename provided for output")
-    exit(1)
-
-output_name = sys.argv[1]
+output_name = "combined.csv"
 with open(output_name, 'w') as out:
     out.write("Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]\n")
     files = os.listdir()
