@@ -1,2 +1,2 @@
 Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]
-Randomized;10000000;0.1;3;24;43.08
+Randomized;10000000;0.1;3;24;44.15

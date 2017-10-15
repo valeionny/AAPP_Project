@@ -1,7 +1,7 @@
 #!/bin/env python3
 import os
 
-output_name = "combined.csv"
+output_name = "combinedK.csv"
 with open(output_name, 'w') as out:
     out.write("Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]\n")
     files = os.listdir()
