@@ -57,6 +57,7 @@ clean:
 	rm -rf $(BINDIR) $(OBJDIR)
 
 test: dataset serial parallel randomized
+	mkdir -p datasets/
 	$(BINDIR)/create_dataset 1000000 2 datasets/dataset_1000000_2.txt
 	if [ -n `$(BINDIR)/run_serial datasets/dataset_1000000_2.txt | grep -o " [0-9][0-9]*"` ] && [ `$(BINDIR)/run_serial datasets/dataset_1000000_2.txt | grep -o " [0-9][0-9]*"` == `$(BINDIR)/run_parallel datasets/dataset_1000000_2.txt | grep -o " [0-9][0-9]*"` ] && [ `$(BINDIR)/run_parallel datasets/dataset_1000000_2.txt | grep -o " [0-9][0-9]*"` == `$(BINDIR)/run_randomized datasets/dataset_1000000_2.txt | grep -o " [0-9][0-9]*"` ]; \
         then \
