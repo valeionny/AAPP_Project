@@ -1,0 +1,72 @@
+# Project: AAPP_Project
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe
+CC       = $(CPP)
+WINDRES  = windres.exe
+OBJ      = src/create_dataset.o src/dataset_creation.o src/file_procs.o src/parallel.o src/randomized.o src/run_parallel.o src/run_randomized.o src/run_serial.o src/serial.o src/test_parallel.o src/test_randomized.o src/test_serial.o src/time_benchmark.o
+LINKOBJ  = src/create_dataset.o src/dataset_creation.o src/file_procs.o src/parallel.o src/randomized.o src/run_parallel.o src/run_randomized.o src/run_serial.o src/serial.o src/test_parallel.o src/test_randomized.o src/test_serial.o src/time_benchmark.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
+BIN      = Notused.exe
+CXXFLAGS = $(CXXINCS) -fopenmp -lgomp -std=c++11 -Iinclude $(LIBS) 
+CFLAGS   = $(CXXFLAGS)
+RM       = rm.exe -f
+
+OBJDIR = build
+BINDIR = bin
+SRCDIR = src
+
+DATASETOBJS = $(addprefix $(OBJDIR)/, create_dataset.o dataset_creation.o \
+                                     file_procs.o)
+SERIALOBJS = $(addprefix $(OBJDIR)/, run_serial.o serial.o file_procs.o)
+PARALLELOBJS = $(addprefix $(OBJDIR)/, run_parallel.o parallel.o \
+                                      file_procs.o)
+RANDOMIZEDOBJS = $(addprefix $(OBJDIR)/, run_randomized.o randomized.o \
+                                        parallel.o file_procs.o)
+TESTSERIALOBJS = $(addprefix $(OBJDIR)/, test_serial.o serial.o \
+                                        file_procs.o time_benchmark.o)
+TESTPARALLELOBJS = $(addprefix $(OBJDIR)/, test_parallel.o parallel.o \
+                                          file_procs.o time_benchmark.o)
+TESTRANDOMIZEDOBJS=$(addprefix $(OBJDIR)/, test_randomized.o randomized.o \
+                                 parallel.o time_benchmark.o file_procs.o)
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before execs all-after
+
+execs: dataset serial parallel randomized testserial testparallel testrandomized
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+$(BINDIR):
+	mkdir -p $(BINDIR)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+dataset: $(DATASETOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/create_dataset $^
+
+serial: $(SERIALOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_serial $^
+
+parallel: $(PARALLELOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_parallel $^
+
+randomized: $(RANDOMIZEDOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_randomized $^
+
+testserial: $(TESTSERIALOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_serial $^
+
+testparallel: $(TESTPARALLELOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_parallel $^
+
+testrandomized: $(TESTRANDOMIZEDOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_randomized $^
+
+clean:
+	rm -rf $(BINDIR) $(OBJDIR)

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <ctime>
 #include <omp.h>
 
 int main(int argc, char * argv[]) {
