@@ -1,7 +1,5 @@
 #include "file_procs.hpp"
-#include "file_procs.cpp"
 #include "parallel.hpp"
-#include "parallel.cpp"
 #include <iostream>
 #include <vector>
 #include <string>

@@ -1,30 +1,58 @@
 
+SRCDIR = src
+INCDIR = include
+OBJDIR = build
+BINDIR = bin
+
+CC = g++
+CFLAGS = -I$(INCDIR) -fopenmp
+
+DATASETOBJS = $(addprefix $(OBJDIR)/, create_dataset.o dataset_creation.o \
+                                     file_procs.o)
+SERIALOBJS = $(addprefix $(OBJDIR)/, run_serial.o serial.o file_procs.o)
+PARALLELOBJS = $(addprefix $(OBJDIR)/, run_parallel.o parallel.o \
+                                      file_procs.o)
+RANDOMIZEDOBJS = $(addprefix $(OBJDIR)/, run_randomized.o randomized.o \
+                                        parallel.o file_procs.o)
+TESTSERIALOBJS = $(addprefix $(OBJDIR)/, test_serial.o serial.o \
+                                        file_procs.o time_benchmark.o)
+TESTPARALLELOBJS = $(addprefix $(OBJDIR)/, test_parallel.o parallel.o \
+                                          file_procs.o time_benchmark.o)
+TESTRANDOMIZEDOBJS=$(addprefix $(OBJDIR)/, test_randomized.o randomized.o \
+                                 parallel.o time_benchmark.o file_procs.o)
+
 all: dataset serial parallel randomized testserial testparallel testrandomized
 
-bindir:
-	mkdir -p bin
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
-dataset: bindir
-	g++ -o bin/create_dataset src/create_dataset.cpp  #src/dataset_creation.cpp src/file_procs.cpp
+$(BINDIR):
+	mkdir -p $(BINDIR)
 
-serial: bindir
-	g++ -o bin/run_serial src/run_serial.cpp #src/serial.cpp src/file_procs.cpp
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-parallel: bindir
-	g++ -fopenmp -o bin/run_parallel src/run_parallel.cpp #src/parallel.cpp src/file.procs.cpp
+dataset: $(DATASETOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/create_dataset $^
 
-randomized: bindir
-	g++ -fopenmp -o bin/run_randomized src/run_randomized.cpp src/randomized.cpp src/file_procs.cpp # src/parallel.cpp
+serial: $(SERIALOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_serial $^
 
-testserial: bindir
-	g++ -o bin/test_serial src/test_serial.cpp
+parallel: $(PARALLELOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_parallel $^
 
-testparallel: bindir
-	g++ -fopenmp -o bin/test_parallel src/test_parallel.cpp
+randomized: $(RANDOMIZEDOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/run_randomized $^
 
-testrandomized: bindir
-	g++ -fopenmp -o bin/test_randomized src/test_randomized.cpp
+testserial: $(TESTSERIALOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_serial $^
+
+testparallel: $(TESTPARALLELOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_parallel $^
+
+testrandomized: $(TESTRANDOMIZEDOBJS) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $(BINDIR)/test_randomized $^
 
 clean:
-	rm -rf bin
+	rm -rf $(BINDIR) $(OBJDIR)
 

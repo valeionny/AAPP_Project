@@ -1,10 +1,8 @@
 #include "file_procs.hpp"
-#include "file_procs.cpp"
 #include "serial.hpp"
-#include "serial.cpp"
 #include "time_benchmark.hpp"
-#include "time_benchmark.cpp"
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 

@@ -1,6 +1,5 @@
 #include "randomized.hpp"
 #include "parallel.hpp"
-#include "parallel.cpp"
 #include <vector>
 #include <cstdlib>
 #include <cmath>
