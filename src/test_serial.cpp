@@ -57,7 +57,7 @@ int main(int argc, char * argv[]) {
 	    text_file << percentage <<";";
 	    text_file << "NO" <<";";
 	    text_file << "1" <<";";
-	    text_file << elapsed_time <<"\n";
+	    text_file << ((float) elapsed_time / repetitions)<<"\n";
 		text_file.close();
 
 	} else {
