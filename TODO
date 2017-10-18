@@ -9,14 +9,12 @@ Algoritmi:
 * (OK) file che esegue l'algoritmo parallelo preso un file dataset
 * (OK) file che esegue l'algoritmo randomizzato preso un file dataset
 Test:
-* eseguibili che eseguono gli algoritmi e misurano il tempo impiegato
+* (OK) eseguibili che eseguono gli algoritmi e misurano il tempo impiegato
   -> input: dataset, parametri algoritmo (e num threads), filename output, numero di ripetizioni da fare
   -> output: file csv con risultati?
 
 Altro:
-* aggiungere più output di debug! -> stima, spazio allocato, ecc.
 * aggiungere commenti
-* compare_and_swap per windows?
+* aggiungere README con istruzioni per l'uso
 * applicare la licenza a tutti i file
 
-(* replace rand() with boost::random http://www.boost.org/doc/libs/1_55_0/doc/html/boost_random.html)
