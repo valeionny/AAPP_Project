@@ -34,3 +34,6 @@ bin/*
 
 # Generated datasets
 datasets/*
+
+# Vi swap file
+*.swp
