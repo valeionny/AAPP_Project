@@ -5,9 +5,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include <atomic>
-
-//TODO! usa una libreria migliore per random
+#include <trng/yarn2.hpp>
+#include <trng/uniform01_dist.hpp>
 
 /**
  * Flip a coin until a head is found, then return the number of tails
@@ -46,10 +45,9 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 						}
 					}
 				}
-				// not gcc/windows version -> "http://en.cppreference.com/w/cpp/atomic/atomic_compare_exchange"
+				// without gcc
 				#else
 				{
-					// TODO: compare_and_swap su windows?
 					#pragma omp critical (max_tails)
 					{
 						if (new_tails > max_tails) {
@@ -115,14 +113,15 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 				bool done = false;
 				while (!done) {
 					unsigned int index = rand() % red_size;
+					// gcc version
 					#ifdef __GNUC__
 						if (reduced_vector[index] == 0) {
 							if (__sync_bool_compare_and_swap(&reduced_vector[index], 0, addends[i])) {
 								done = true;
 							}
 						}
+					// without gcc
 					#else
-						// TODO: compare_and_swap su windows?
 						#pragma omp critical(reduced_vector)
 						{
 							if (reduced_vector[index] == 0) {
