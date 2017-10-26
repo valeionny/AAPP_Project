@@ -45,9 +45,6 @@ int main(int argc, char * argv[]) {
 	}
 	std::cout << "Loaded dataset " << filename << std::endl;
 
-	// initialize srand()
-	srand((unsigned int) time(NULL));
-
 	// do the sum
 	unsigned long long int sum;
 	if (k != 0) {

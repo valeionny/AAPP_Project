@@ -55,16 +55,13 @@ int main(int argc, char * argv[]) {
 	std::cout << "Loaded dataset " << dataset_filename << std::endl;
 
 	std::cout << "Starting randomized sum with " << repetitions << " repetitions" << std::endl;
-	
-	srand((unsigned int) time(NULL));
-	
+
 	unsigned long long int start_time = GetTimeMs64();
-	
 	for (unsigned long int i=0; i < repetitions; i++){
 		randomizedSum(addends, k);
 	}
-	
 	unsigned long long int end_time = GetTimeMs64();
+
 	unsigned long long int elapsed_time = end_time - start_time;
 	std::cout << "Total elapsed time: " << elapsed_time << " ms" << std::endl;
 	std::cout << "Time for a single execution: " << ((float) elapsed_time / repetitions) << " ms" << std::endl;

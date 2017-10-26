@@ -5,30 +5,45 @@
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
-#include <trng/yarn2.hpp>
+#include <climits>
+#include <omp.h>
+#include <trng/lcg64.hpp>
 #include <trng/uniform01_dist.hpp>
 
 /**
  * Flip a coin until a head is found, then return the number of tails
  */
-unsigned long int flipCoinsUntilHeads() {
+unsigned long int flipCoinsUntilHeads(trng::lcg64 &r) {
+	trng::uniform01_dist<> u;    // uniform distribution from 0 to 1
 	unsigned long int tails = 0;
-	while (rand() % 2 == 0) {
+	while (((unsigned int) (u(r) * 100)) % 2 == 0) {
 		tails++;
 	}
 	return tails;
 }
 
-unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &addends) {
-
+unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &addends, unsigned long int seed) {
 	unsigned long int max_tails = 0;
 	unsigned int n = addends.size();
 	#pragma omp parallel
 	{
+		// random engine
+		trng::lcg64 r;    // build a new prng engine to avoid splitting the main one
+		r.seed(seed);
+		#ifdef _OPENMP
+			int size = omp_get_num_threads();    // total number of threads
+			int rank = omp_get_thread_num();     // number of current thread
+		#else
+			std::cout << "OpenMP not found. Remember to compile with the -fopenmp flag!" << std::endl;
+			int size = 1;
+			int rank = 1;
+		#endif
+		r.split(size, rank);        // choose sub-stream no. rank out of size streams
+
 		#pragma omp for
 		for (unsigned int i=0; i < n; i++) {
 			if (addends[i] != 0){
-				unsigned long int new_tails = flipCoinsUntilHeads();
+				unsigned long int new_tails = flipCoinsUntilHeads(r);
 
 				// gcc version
 				#ifdef __GNUC__
@@ -64,12 +79,19 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 
 unsigned long long int randomizedSum(std::vector<unsigned long long int> &addends, unsigned int k, unsigned int a, unsigned int d) {
 
+	// Initialization of the random number generator
+	// used to seed different estimations and memory marking steps
+	trng::lcg64 r;             // prng engine
+	trng::uniform01_dist<> u;  // uniform distribution from 0 to 1
+	r.seed((unsigned long int) time(NULL));
+
 	// Estimation
 
 	// run produce-an-estimate k times
 	std::vector<unsigned long int> estimates (k);
 	for (unsigned int i=0; i < k; i++) {
-		estimates[i] = produceAnEstimate(addends);
+		unsigned long int seed = u(r) * ULONG_MAX;
+		estimates[i] = produceAnEstimate(addends, seed);
 	}
 
 	// apply formula to find m'
@@ -79,7 +101,6 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 	}
 	double E = log(2) * ((double) sum_of_estimates / k);
 	unsigned long int m = exp(2) * exp(E) + d;
-
 
 	#ifdef DEBUG 
 		// Alternative estimate (using approximate fit) 
@@ -106,6 +127,17 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 	unsigned int n = addends.size();
 	#pragma omp parallel
 	{
+		// divide prng streams
+		#ifdef _OPENMP
+			int size = omp_get_num_threads();    // total number of threads
+			int rank = omp_get_thread_num();     // number of current thread
+		#else
+			std::cout << "OpenMP not found. Remember to compile with the -fopenmp flag!" << std::endl;
+			int size = 1;
+			int rank = 1;
+		#endif
+		r.split(size, rank);        // choose sub-stream no. rank out of size streams
+
 		#pragma omp for
 		for (unsigned int i=0; i < n; i++) {
 			if (addends[i] != 0) {
