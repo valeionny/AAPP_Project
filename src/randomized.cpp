@@ -144,7 +144,7 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 				// keep trying to write on new vector
 				bool done = false;
 				while (!done) {
-					unsigned int index = rand() % red_size;
+					unsigned long int index = ((unsigned long int) (u(r) * red_size)) % red_size;
 					// gcc version
 					#ifdef __GNUC__
 						if (reduced_vector[index] == 0) {
