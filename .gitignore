@@ -38,5 +38,6 @@ datasets/*
 # Vi swap file
 *.swp
 
-# TRNG extracted directory
+# TRNG extracted and installed directory
 libs/trng-4.19
+libs/trng-installed
