@@ -14,8 +14,6 @@ Test:
   -> output: file csv con risultati?
 
 Altro:
-* (aggiungere commenti)
 * aggiungere README con istruzioni per l'uso
-* applicare la licenza a tutti i file
 * merge branches
 * spostare test in un unica cartella
