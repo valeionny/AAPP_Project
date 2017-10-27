@@ -56,9 +56,17 @@ int main(int argc, char * argv[]) {
 
 	std::cout << "Starting randomized sum with " << repetitions << " repetitions" << std::endl;
 
+	// we use rand() to get different runs each repetition
+	srand((unsigned long int) time(NULL));
+	std::vector<unsigned long int> seeds;
+	for (unsigned long int i=0; i < repetitions; i++) {
+		seeds.push_back(rand());
+	}
+
+	// measure the time needed for the algorithm execution
 	unsigned long long int start_time = GetTimeMs64();
-	for (unsigned long int i=0; i < repetitions; i++){
-		randomizedSum(addends, k);
+	for (unsigned long int i=0; i < repetitions; i++) {
+		randomizedSumWithSeed(addends, seeds[i], k);
 	}
 	unsigned long long int end_time = GetTimeMs64();
 

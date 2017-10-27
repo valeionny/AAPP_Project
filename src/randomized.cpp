@@ -77,13 +77,13 @@ unsigned long int produceAnEstimate(std::vector<unsigned long long int> const &a
 	return max_tails;
 }
 
-unsigned long long int randomizedSum(std::vector<unsigned long long int> &addends, unsigned int k, unsigned int a, unsigned int d) {
+unsigned long long int randomizedSumWithSeed(std::vector<unsigned long long int> &addends, unsigned long int seed, unsigned int k, unsigned int a, unsigned int d) {
 
 	// Initialization of the random number generator
 	// used to seed different estimations and memory marking steps
 	trng::lcg64 r;             // prng engine
 	trng::uniform01_dist<> u;  // uniform distribution from 0 to 1
-	r.seed((unsigned long int) time(NULL));
+	r.seed(seed);
 
 	// Estimation
 
@@ -171,4 +171,9 @@ unsigned long long int randomizedSum(std::vector<unsigned long long int> &addend
 	unsigned long long int sum = parallelSum(reduced_vector);
 
 	return sum;
+}
+
+unsigned long long int randomizedSum(std::vector<unsigned long long int> &addends, unsigned int k, unsigned int a, unsigned int d) {
+	// wrapper to call randomizedSum without a seed
+	return randomizedSumWithSeed(addends, (unsigned long int) time(NULL), k, a, d);
 }
