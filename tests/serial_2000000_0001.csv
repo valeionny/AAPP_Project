@@ -1,2 +1,2 @@
 Algorithm;DatasetSize;NzPercentage;K;Threads;Time[ms]
-Serial;2000000;0.001;NO;1;2224
+Serial;2000000;0.001;NO;1;22.81
