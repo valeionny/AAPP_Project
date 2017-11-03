@@ -19,9 +19,9 @@ if not os.path.exists(result_dir):
 
 # perform benchmarks
 for size in size_list:
-    print '* Size {} *'.format(size)
+    print ('* Size {} *'.format(size))
     for perc in perc_list:
-        print '* Nonzero Percentage {} *'.format(perc)
+        print ('* Nonzero Percentage {} *'.format(perc))
         # create dataset
         dataset_path = dataset_dir + 'dataset_' + str(size) + '_' + str(perc).replace('.', '') + '.txt'
         dataset_path = '{}/dataset_{}_{}.txt'.format(dataset_dir, size, str(perc).replace('.', ''))
@@ -34,15 +34,15 @@ for size in size_list:
         check_call(['bin/test_serial', dataset_path, result_path, str(reps)])
 
         for threads in threads_list:
-            print '* Threads: {} *'.format(threads)
+            print ('* Threads: {} *'.format(threads))
             # run parallel
             result_path = '{}/parallel_{}_{}_t{}.csv'.format(result_dir, size, str(perc).replace('.', ''), threads)
             check_call(['bin/test_parallel', dataset_path, result_path, str(threads), str(reps)])
 
             # run randomized
             for k in k_list:
-                print '* K: {} *'.format(k)
+                print ('* K: {} *'.format(k))
                 result_path = '{}/randomized_{}_{}_k{}_t{}.csv'.format(result_dir, size, str(perc).replace('.', ''), k, threads)
                 check_call(['bin/test_randomized', dataset_path, result_path, str(k), str(threads), str(reps)])
 
-print 'Benchmarks complete!'
+print ('Benchmarks complete!')
