@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2017 Pietro Ferretti, Valentina Ionata
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #include "file_procs.hpp"
 #include "file_procs.cpp"
 #include "randomized.hpp"
@@ -55,16 +77,21 @@ int main(int argc, char * argv[]) {
 	std::cout << "Loaded dataset " << dataset_filename << std::endl;
 
 	std::cout << "Starting randomized sum with " << repetitions << " repetitions" << std::endl;
-	
-	srand((unsigned int) time(NULL));
-	
-	unsigned long long int start_time = GetTimeMs64();
-	
-	for (unsigned long int i=0; i < repetitions; i++){
-		randomizedSum(addends, k);
+
+	// we use rand() to get different runs each repetition
+	srand((unsigned long int) time(NULL));
+	std::vector<unsigned long int> seeds;
+	for (unsigned long int i=0; i < repetitions; i++) {
+		seeds.push_back(rand());
 	}
-	
+
+	// measure the time needed for the algorithm execution
+	unsigned long long int start_time = GetTimeMs64();
+	for (unsigned long int i=0; i < repetitions; i++) {
+		randomizedSumWithSeed(addends, seeds[i], k);
+	}
 	unsigned long long int end_time = GetTimeMs64();
+
 	unsigned long long int elapsed_time = end_time - start_time;
 	std::cout << "Total elapsed time: " << elapsed_time << " ms" << std::endl;
 	std::cout << "Time for a single execution: " << ((float) elapsed_time / repetitions) << " ms" << std::endl;
@@ -77,13 +104,13 @@ int main(int argc, char * argv[]) {
 		// write all the parameters we want to display in first line
 		text_file << "Algorithm" << ";"<<"DatasetSize"<< ";" <<"NzPercentage"<< ";" << "K" << ";"<< "Threads" << ";"<< "Time[ms]" <<"\n";
 		double percentage = getPercentageFromFile(dataset_filename);
-	    text_file << "Randomized"<<";";
-	    int size = loadFromFile(dataset_filename).size();
-	    text_file << size <<";";
-	    text_file << percentage <<";";
-	    text_file << k <<";";
-	    text_file << threads <<";";
-	    text_file << ((float) elapsed_time / repetitions) <<"\n";
+		text_file << "Randomized"<<";";
+		int size = loadFromFile(dataset_filename).size();
+		text_file << size <<";";
+		text_file << percentage <<";";
+		text_file << k <<";";
+		text_file << threads <<";";
+		text_file << ((float) elapsed_time / repetitions) <<"\n";
 		text_file.close();
 
 	} else {
