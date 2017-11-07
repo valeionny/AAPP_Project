@@ -14,6 +14,5 @@ Test:
   -> output: file csv con risultati?
 
 Altro:
-* aggiungere README con istruzioni per l'uso
-* merge branches
+* (OK) aggiungere README con istruzioni per l'uso
 * (OK) spostare test in un unica cartella
