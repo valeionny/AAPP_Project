@@ -21,14 +21,13 @@
 // SOFTWARE.
 
 #include "file_procs.hpp"
-#include "file_procs.cpp"
 #include "parallel.hpp"
-#include "parallel.cpp"
 #include "time_benchmark.hpp"
-#include "time_benchmark.cpp"
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
+#include <omp.h>
 
 int main(int argc, char * argv[]) {
 	
